@@ -1,7 +1,7 @@
-#Хэш с колическвом дней в невисокосном году
+#Хэш с колическвом дней в високосном году
 year_hash = {
   January: 31,
-  February: 28,
+  February: 29,
   March: 31,
   Aprill: 30,
   May: 31,
@@ -21,16 +21,10 @@ month = gets.to_i
 puts "Введите год"
 year = gets.to_i
 #Определяем високосный ли год
-if year % 4 == 0 && year % 100 == 0 && year % 400 == 0
-  leap = 1 
-elsif 
-  year % 4 == 0 && year % 100 == 0 && year % 400 != 0
-  leap = 0
-elsif
-  year % 4 == 0 && year % 100 != 0
-  leap = 1  
+if year % 4 == 0 && year % 400 == 0 && year % 100 == 0 ||  year % 4 == 0 && year % 100 != 0
+  leap = true 
 else
-  leap = 0
+  leap = false
 end
 #Вычисляем номер дня
 count_day = 0
@@ -40,11 +34,15 @@ year_arr.each_with_index do |days, index|
   count_day += days
   end
 end
-#Добавляем один день если год високосный и выводим порядковый номер дня
+#вычитаем один день если год НЕ високосный и выводим порядковый номер дня
 case leap
-when 0
-count_day += day
-when 1
-count_day += day + leap
+when true
+  count_day += day
+when false
+if count_day <= 59 
+  count_day += day
+else
+  count_day += day - 1
+end
 end  
 puts "Порядковый номер даты: #{count_day}" 

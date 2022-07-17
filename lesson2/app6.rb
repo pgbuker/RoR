@@ -15,13 +15,11 @@ loop do
   products_hash[product] = price_qunat_hash
 end
 
-i = 1
 all = 0
-products_hash.each do |key,value|
-  print "#{i }. #{key } #{value} "
-  i += 1
-  value.each do |p, q|
-    sum = p * q
+products_hash.each_with_index do |(product, price_qunat_hash), index|
+  print "#{index + 1}. #{product } #{price_qunat_hash} "
+  price_qunat_hash.each do |price, quantity|
+    sum = price * quantity
     print "Сумма: #{sum}"
     puts
     all += sum
