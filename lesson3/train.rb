@@ -1,34 +1,33 @@
 class Train
-
-  attr_accessor :speed, :number, :type, :quantity_wagons, :number_station_route
-  attr_reader :station_route, :route_train
-  @speed = 0
-  @number_station_route = 0
+ 
+  attr_reader :current_station, :route_train, :speed, :number, :type, :quantity_wagons, :station_index, :direction_route
 
   def initialize(train)
-    self.number = train[:number]
-    self.type = train[:type]
-    self.quantity_wagons = train[:quantity_wagons]
+    @number = train[:number]
+    @type = train[:type]
+    @quantity_wagons = train[:quantity_wagons]
+    @speed = 0
+    @station_index = 0
   end
   
   #Набирает скорость
   def start
-    self.speed = rand(1..80)
+    @speed = rand(1..80)
   end
 
   #Останавливается
   def stop
-    self.speed = 0
+    @speed = 0
   end
   
   #Возвращает текущую скорость
   def control_speed
-    return @speed
+    @speed
   end
   
   #Возвращает количество вагонов
   def sum_wagon
-    return @quantity_wagons
+    @quantity_wagons
   end
 
   #Прицепляем один вагон
@@ -53,34 +52,55 @@ class Train
   end
 
   #Устанавливаем маршрут для поезда и помещаем на первую станцию
-  def setting_route
-    @route_train = Route::route_stations
-    @station_route = @route_train[0]
+  def setting_route(route_stations)
+    @route_train = route_stations
+    @current_station = @route_train[0]
   end
 
-  #Отправляем поезд на одну станцию вперед и возвращаем текущую, предыдущую и следующую станции
+  #Отправляем поезд на одну станцию вперед и устанавливанием направление движения
   def moving_forward_train
-    if @station_route == @route_train[-1]
+    if @current_station == @route_train[-1]
     puts "Вы доехали до конечной станции. Возможно движение только назад!"
     elsif
-      @number_station_route += 1
-    end 
-    return @station_route = @route_train[@number_station_route] 
-    return previous_station = @route_train[@number_station_route - 1]
-    return next_station = @route_train[@number_station_route + 1]
-
+      @station_index += 1
+      @direction_route = "Even"
+    end
   end
 
-  #Отправляем поезд на одну станцию назад и возвращаем текущую, предыдущую и следующую станции
+  #Отправляем поезд на одну станцию назад и устанавливанием направление движения
   def moving_back_train
-    if @station_route == @route_train[0]
+    if @current_station == @route_train[0]
       puts "Вы на первой станции. Возможно движение только вперед!"
     elsif 
-      @number_station_route -= 1
-    end
-    return @station_route = @route_train[@number_station_route] 
-    return previous_station = @route_train[@number_station_route + 1]
-    return next_station = @route_train[@number_station_route - 1]    
+      @station_index -= 1
+      @direction_route = "Odd"
+    end  
   end
-
+#Возвращаем текущую станцию
+  def current_station
+    @current_station = @route_train[@station_index]
+  end
+#Возвращаем предыдущую станцию в зависимости от направления движения
+  def previous_station
+    if @direction_route == "Even" && @current_station != @route_train[0]
+      previous_station = @route_train[@station_index - 1] 
+    elsif
+      @direction_route == "Odd" && @current_station != @route_train[-1]
+      previous_station = @route_train[@station_index + 1]
+    else
+      puts "Поезд никуда не ехал!"  
+    end
+  return previous_station
+  end
+#Возвращаем следующую станцию в зависимости от направления движения
+  def next_station
+    if @direction_route == "Even" && @current_station != @route_train[-1]
+      next_station = @route_train[@station_index + 1]
+    elsif  @direction_route == "Odd" && @current_station != @route_train[0]
+      next_station = @route_train[@station_index - 1]
+    else
+      next_station = @route_train[@station_index + 1]
+      puts "Поезд на первой станции!" 
+    end
+  return next_station
 end
