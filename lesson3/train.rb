@@ -57,51 +57,35 @@ class Train
     @current_station = @route_train[0]
   end
 
-  #Отправляем поезд на одну станцию вперед и устанавливанием направление движения
+  #Отправляем поезд на одну станцию вперед
   def moving_forward_train
-    if @current_station == @route_train[-1]
+    if @current_station = @route_train[-1]
     puts "Вы доехали до конечной станции. Возможно движение только назад!"
     elsif
       @station_index += 1
-      @direction_route = "Even"
+      @current_station = route_train[station_index]
     end
   end
 
-  #Отправляем поезд на одну станцию назад и устанавливанием направление движения
+  #Отправляем поезд на одну станцию назад
   def moving_back_train
-    if @current_station == @route_train[0]
+    if @route_train[@station_index] == @route_train[0]
       puts "Вы на первой станции. Возможно движение только вперед!"
     elsif 
       @station_index -= 1
-      @direction_route = "Odd"
+      @current_station = route_train[station_index]
     end  
   end
 #Возвращаем текущую станцию
   def current_station
-    @current_station = @route_train[@station_index]
+    @current_station
   end
-#Возвращаем предыдущую станцию в зависимости от направления движения
+#Возвращаем предыдущую станцию 
   def previous_station
-    if @direction_route == "Even" && @current_station != @route_train[0]
-      previous_station = @route_train[@station_index - 1] 
-    elsif
-      @direction_route == "Odd" && @current_station != @route_train[-1]
-      previous_station = @route_train[@station_index + 1]
-    else
-      puts "Поезд никуда не ехал!"  
-    end
-  return previous_station
+    @route_train[@station_index - 1] 
   end
-#Возвращаем следующую станцию в зависимости от направления движения
+#Возвращаем следующую станцию
   def next_station
-    if @direction_route == "Even" && @current_station != @route_train[-1]
-      next_station = @route_train[@station_index + 1]
-    elsif  @direction_route == "Odd" && @current_station != @route_train[0]
-      next_station = @route_train[@station_index - 1]
-    else
-      next_station = @route_train[@station_index + 1]
-      puts "Поезд на первой станции!" 
-    end
-  return next_station
+    @route_train[@station_index + 1]
   end
 end
