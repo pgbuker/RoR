@@ -103,4 +103,5 @@ class Train
       puts "Поезд на первой станции!" 
     end
   return next_station
+  end
 end
