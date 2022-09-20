@@ -53,8 +53,8 @@ class Train
 
   #Устанавливаем маршрут для поезда и помещаем на первую станцию
   def setting_route(route_stations)
-    @route_train = route_stations
-    @current_station = @route_train[0]
+      @route_train = route_stations
+      @current_station = @route_train[0]
   end
 
   #Отправляем поезд на одну станцию вперед
