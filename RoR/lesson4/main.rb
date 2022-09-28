@@ -10,7 +10,7 @@ require_relative 'route.rb'
 require_relative 'station.rb'
 require_relative 'wagon_cargo.rb'
 require_relative 'wagon_passanger.rb'
-require_relative 'seed.rb'
+#require_relative 'seed.rb'
 
 def all_trains_list
   @all_trains.each_with_index {|train, index| puts "#{index + 1}.  № #{train.number}" }  

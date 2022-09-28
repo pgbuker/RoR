@@ -8,27 +8,7 @@ class Train
     @station_index = 0
     @wagons_array = []
   end
-  
-  #Набирает скорость
-  def start
-    @speed = rand(1..80)
-  end
-
-  #Останавливается
-  def stop
-    @speed = 0
-  end
-  
-  #Возвращает текущую скорость
-  def control_speed
-    @speed
-  end
-  
-  #Возвращает количество вагонов
-  def wagons_count
-    @wagons_array.count { |wagon| wagon.number }   
-  end
-
+#Используется непосредственно из меню пользователя  
   def add_wagon(wagon)
     if @speed != 0 
       puts "Нельзя прицепить вагон, поезд движется!"
@@ -39,8 +19,7 @@ class Train
       puts "Не тот тип вагона!!!"  
     end
   end
-
-  #Отцепляем один вагон
+#Используется непосредственно из меню пользователя
   def sub_wagon(number)
     if @speed != 0
       puts "Нельзя отцепить вагон, поезд движется!!"
@@ -51,20 +30,18 @@ class Train
       @wagons_array.reject! { |wagon| wagon.number == number} 
     end
   end
-
+#Используется непосредственно из меню пользователя
   def info_route
     puts "Станции маршрута: "
     @route_train.route_stations.each_with_index {|station, index|  puts "#{index + 1}.  #{station.name}" }
   end
 
-
-  #Устанавливаем маршрут для поезда и помещаем на первую станцию
+#Используется непосредственно из меню пользователя
   def setting_route(route)
       @route_train = route
       @current_station = route.first_station
   end
-
-  #Отправляем поезд на одну станцию вперед
+#Используется непосредственно из меню пользователя
   def moving_forward_train
     if @current_station == @route_train.route_stations[-1]
     puts "Вы доехали до конечной станции. Возможно движение только назад!"
@@ -73,8 +50,7 @@ class Train
       @current_station = @route_train.route_stations[station_index]
     end
   end
-
-  #Отправляем поезд на одну станцию назад
+#Используется непосредственно из меню пользователя
   def moving_back_train
     if @route_train.route_stations[@station_index] == @route_train.route_stations[0]
       puts "Вы на первой станции. Возможно движение только вперед!"
@@ -83,17 +59,35 @@ class Train
       @current_station = route_train.route_stations[station_index]
     end  
   end
-#Возвращаем текущую станцию
+
+private
+
+#Используется внутри класса, нет вызова из меню пользователя
   def current_station
     @current_station
   end
-#Возвращаем предыдущую станцию 
+#Используется внутри класса, нет вызова из меню пользователя
   def previous_station
     @route_train.route_stations[@station_index - 1] 
   end
-#Возвращаем следующую станцию
+#Используется внутри класса, нет вызова из меню пользователя
   def next_station
     @route_train.route_stations[@station_index + 1]
   end
 end
-
+#Используется внутри класса, нет вызова из меню пользователя
+def start
+  @speed = rand(1..80)
+end
+#Используется внутри класса, нет вызова из меню пользователя
+def stop
+  @speed = 0
+end
+#Используется внутри класса, нет вызова из меню пользователя
+def control_speed
+  @speed
+end
+#Используется внутри класса, нет вызова из меню пользователя
+def wagons_count
+  @wagons_array.count { |wagon| wagon.number }   
+end
