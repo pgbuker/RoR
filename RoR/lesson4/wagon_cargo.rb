@@ -1,7 +1,8 @@
 class CargoWagon
-  attr_reader :type
+  attr_reader :number, :type
 
-  def initialize(type)
-    @type = type
+  def initialize(number)
+    @type = "cargo"
+    @number = number
   end  
 end

@@ -1,12 +1,13 @@
 class Train
  
-  attr_reader :current_station, :route_train, :speed, :number, :type, :station_index, :wagons_array
+  attr_reader :current_station, :route_train, :speed, :number, :type, :quantity_wagons, :station_index, :direction_route
 
-  def initialize(number)
-    @number = number
+  def initialize(train)
+    @number = train[:number]
+    @type = train[:type]
+    @quantity_wagons = train[:quantity_wagons]
     @speed = 0
     @station_index = 0
-    @wagons_array = []
   end
   
   #Набирает скорость
@@ -25,62 +26,54 @@ class Train
   end
   
   #Возвращает количество вагонов
-  def wagons_count
-    @wagons_array.count { |wagon| wagon.number }   
+  def sum_wagon
+    @quantity_wagons
   end
 
-  def add_wagon(wagon)
-    if @speed != 0 
-      puts "Нельзя прицепить вагон, поезд движется!"
-    elsif
-      wagon.type == @type
-      @wagons_array << wagon
+  #Прицепляем один вагон
+  def add_wagon
+    if @speed != 0
+      puts "Нельзя прицепить вагон, так как поезд движется!"
     else
-      puts "Не тот тип вагона!!!"  
+      @quantity_wagons += 1
     end
   end
 
   #Отцепляем один вагон
-  def sub_wagon(number)
+  def sub_wagon
     if @speed != 0
-      puts "Нельзя отцепить вагон, поезд движется!!"
+      puts "Нельзя отцепить вагон, так как поезд движется!!"
     elsif
-      @wagons_array.empty?
+      @quantity_wagons == 0
       puts "Уже нечего отцеплять остался только локомотив!"
     else 
-      @wagons_array.reject! { |wagon| wagon.number == number} 
+      @quantity_wagons -= 1  
     end
   end
 
-  def info_route
-    puts "Станции маршрута: "
-    @route_train.route_stations.each_with_index {|station, index|  puts "#{index + 1}.  #{station.name}" }
-  end
-
-
   #Устанавливаем маршрут для поезда и помещаем на первую станцию
-  def setting_route(route)
-      @route_train = route
-      @current_station = route.first_station
+  def setting_route(route_stations)
+    @route_train = route_stations
+    @current_station = @route_train[0]
   end
 
   #Отправляем поезд на одну станцию вперед
   def moving_forward_train
-    if @current_station == @route_train.route_stations[-1]
+    if @current_station = @route_train[-1]
     puts "Вы доехали до конечной станции. Возможно движение только назад!"
     else
       @station_index += 1
-      @current_station = @route_train.route_stations[station_index]
+      @current_station = route_train[station_index]
     end
   end
 
   #Отправляем поезд на одну станцию назад
   def moving_back_train
-    if @route_train.route_stations[@station_index] == @route_train.route_stations[0]
+    if @route_train[@station_index] == @route_train[0]
       puts "Вы на первой станции. Возможно движение только вперед!"
-    else 
+    else
       @station_index -= 1
-      @current_station = route_train.route_stations[station_index]
+      @current_station = route_train[station_index]
     end  
   end
 #Возвращаем текущую станцию
@@ -89,11 +82,10 @@ class Train
   end
 #Возвращаем предыдущую станцию 
   def previous_station
-    @route_train.route_stations[@station_index - 1] 
+    @route_train[@station_index - 1] 
   end
 #Возвращаем следующую станцию
   def next_station
-    @route_train.route_stations[@station_index + 1]
+    @route_train[@station_index + 1]
   end
 end
-
