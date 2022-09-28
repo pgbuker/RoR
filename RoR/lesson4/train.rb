@@ -8,6 +8,7 @@ class Train
     @station_index = 0
     @wagons_array = []
   end
+  
 #Используется непосредственно из меню пользователя  
   def add_wagon(wagon)
     if @speed != 0 
