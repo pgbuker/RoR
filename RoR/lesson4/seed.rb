@@ -38,12 +38,50 @@
   # route1 = Route.new(first_station,last_station)
   # @all_routes << route1
 
-  train = CargoTrain.new(23)
+  train = CargoTrain.new(232345)
   @all_trains << train  
-  train = PassangerTrain.new(42)
+  train = PassangerTrain.new(424343)
   @all_trains << train  
 
   wagon = CargoWagon.new(234567)
   @all_wagons << wagon  
   wagon = PassangerWagon.new(424242)
   @all_wagons << wagon  
+
+
+
+
+  #Черновик
+  def select_train
+    puts "Выберите поезд по номеру из списка: "
+    all_trains_list
+    train_id = gets.to_i
+    train = @all_trains[train_id]
+  end
+  
+  def select_station
+    puts "Выберите станцию по номеру из  списка: "
+    all_stations_list
+    station_id = gets.to_i
+    station = @all_stations[station_id]
+  end
+  
+  def select_route
+    puts "Выберите маршрут по номеру из  списка: "
+    all_routes_list
+    route_id = gets.to_i
+    route = @all_routes[route_id]
+  end
+  
+  def select_wagon
+    puts "Выберите вагон по номеру из  списка: "
+    all_wagons_list
+    wagon_id = gets.to_i
+    wagon = @all_wagons[wagon_id]
+  end
+
+  # def creat_route
+  # route = Route.new(first_station, last_station)
+  # @all_routes << route
+# end
+
