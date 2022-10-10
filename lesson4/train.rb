@@ -60,13 +60,14 @@ class Train
     end  
   end
 
-private
 
-#Используется внутри класса, нет вызова из меню пользователя
+
+#Используется непосредственно из меню пользовател
   def current_station
     @current_station
   end
-#Используется внутри класса, нет вызова из меню пользователя
+  private
+  #Используется внутри класса, нет вызова из меню пользователя
   def previous_station
     @route_train.route_stations[@station_index - 1] 
   end

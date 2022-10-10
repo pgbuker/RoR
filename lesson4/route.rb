@@ -22,3 +22,5 @@ class Route
     end
   end
 end
+
+route = Route.new("MSK", "SPB")
