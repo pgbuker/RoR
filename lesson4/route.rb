@@ -1,9 +1,12 @@
 class Route
-  
+extend InstanceCounter::ClassMethods
+include InstanceCounter::InstanceMethods
+
   attr_reader :route_stations, :first_station, :last_station
   
   def initialize(first_station,last_station)
     @route_stations = [first_station, last_station]
+    register_instance
   end
 #Используется непосредственно из меню пользователя
   def add_station(station)
@@ -23,4 +26,4 @@ class Route
   end
 end
 
-route = Route.new("MSK", "SPB")
+

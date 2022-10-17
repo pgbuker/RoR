@@ -1,5 +1,18 @@
 class Train
- 
+ extend InstanceCounter::ClassMethods
+ include InstanceCounter::InstanceMethods
+ include Manufacture
+
+ @@all_trains = []
+
+  class << self
+    
+    attr_accessor :all_trains
+    def find_number(number)
+      @@all_trains.select {|train| train.number == number}
+    end
+  end
+
   attr_reader :current_station, :route_train, :speed, :number, :type, :station_index, :wagons_array
 
   def initialize(number)
@@ -7,6 +20,8 @@ class Train
     @speed = 0
     @station_index = 0
     @wagons_array = []
+    @@all_trains << self
+    register_instance
   end
 #Используется непосредственно из меню пользователя  
   def add_wagon(wagon)

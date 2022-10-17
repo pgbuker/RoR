@@ -1,4 +1,6 @@
 
+require_relative 'manufacture.rb'
+require_relative 'instance_counter'
 require_relative 'train.rb'
 require_relative 'train_cargo.rb'
 require_relative 'train_passanger.rb'
@@ -8,10 +10,8 @@ require_relative 'wagon_cargo.rb'
 require_relative 'wagon_passanger.rb'
 require_relative 'console.rb'
 
-#require_relative 'seed.rb'
 
-@console = Console.new
-
+ @console = Console.new
 
 
 loop do

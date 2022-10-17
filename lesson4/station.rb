@@ -1,11 +1,24 @@
 class Station
+extend InstanceCounter::ClassMethods
+include InstanceCounter::InstanceMethods
+
+
+  class << self
+    attr_accessor :all_stations
+  end
 
   attr_reader :trains, :name
  
+  @@all_stations = []
+
   def initialize(name)
     @name = name
     @trains = []
+    @@all_stations << self
+    register_instance
   end
+
+
 #Используется непосредственно из меню пользователя
   def take_train_to_station(train)
     @trains << train  

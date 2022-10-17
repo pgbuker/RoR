@@ -1,4 +1,5 @@
 class PassangerWagon
+  include Manufacture
   
   attr_reader :number, :type
 
