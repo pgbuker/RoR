@@ -11,9 +11,8 @@ require_relative 'wagon_passanger.rb'
 require_relative 'console.rb'
 
 
- @console = Console.new
-
-
+@console = Console.new
+ 
 loop do
   @console.menu_railrod
   puts "Введите номер: "

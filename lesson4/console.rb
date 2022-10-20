@@ -101,7 +101,30 @@ def train_menu
   menu_choice
   case @choice
   when 1
-    creat_train
+    puts "Выберите тип поезда: "
+    puts "1 - Пассажирский поезд"
+    puts "2 - Грузовой поезд"
+    type = gets.to_i
+    attempt = 0
+    begin
+      puts "Введите номер поезда: "
+      number = gets.chomp
+    if type == 1
+      train = PassangerTrain.new(number)
+      @all_trains << train
+      puts "Пассажирский поезд № #{number} создан!"
+    elsif type == 2
+      train = CargoTrain.new(number)
+      @all_trains << train
+      puts "Грузовой поезд № #{number} создан!"
+    end 
+    rescue RuntimeError 
+      puts "Неправильно введен номер поезда!"
+      attempt += 1
+      retry if attempt < 3
+    ensure
+      puts "Неправильный ввод #{attempt} раза"
+    end  
     all_trains_list
   when 2
     puts "Выберите поезд по номеру из списка: "
@@ -282,42 +305,26 @@ end
 private
 
 
-def all_trains_list
-  @all_trains.each_with_index {|train, index| puts "#{index}.  № #{train.number}" }  
-end
-
-def all_stations_list
-  @all_stations.each_with_index {|station, index| puts "#{index }.  #{station.name}" }  
-end
-
-def all_routes_list
-  @all_routes.each_with_index {|route, index| puts "#{index}.  #{route}" }  
-end
-
-def all_wagons_list
-  @all_wagons.each_with_index {|wagon, index| puts "#{index}.  № #{wagon.number}, #{wagon.type} " }  
-end
-
-
-def creat_station
-  puts "Введите название станции: "
-  station = Station.new(gets.chomp.capitalize)
-  @all_stations << station
-end
-
-def creat_train
-  puts "Введите номер поезда: "
-  number = gets.to_i
-  puts "Введите тип поезда(cargo/passanger): "
-  type = gets.chomp
-  if type == "cargo"
-    train = CargoTrain.new(number)
-  elsif type == "passanger"
-    train = PassangerTrain.new(number)
-  else
-    puts "Нет такого типа поезда"
-  end  
-  @all_trains << train
-end
-
+  def all_trains_list
+    @all_trains.each_with_index {|train, index| puts "#{index}.  № #{train.number}" }  
+  end
+  
+  def all_stations_list
+    @all_stations.each_with_index {|station, index| puts "#{index }.  #{station.name}" }  
+  end
+  
+  def all_routes_list
+    @all_routes.each_with_index {|route, index| puts "#{index}.  #{route}" }  
+  end
+  
+  def all_wagons_list
+    @all_wagons.each_with_index {|wagon, index| puts "#{index}.  № #{wagon.number}, #{wagon.type} " }  
+  end
+  
+  
+  def creat_station
+    puts "Введите название станции: "
+    station = Station.new(gets.chomp.capitalize)
+    @all_stations << station
+  end
 end

@@ -5,8 +5,11 @@ include InstanceCounter::InstanceMethods
   attr_reader :route_stations, :first_station, :last_station
   
   def initialize(first_station,last_station)
+    @first_station = first_station
+    @last_station = last_station
     @route_stations = [first_station, last_station]
     register_instance
+    validate!
   end
 #Используется непосредственно из меню пользователя
   def add_station(station)
@@ -24,6 +27,21 @@ include InstanceCounter::InstanceMethods
       @route_stations.delete(station) 
     end
   end
+
+# protected
+
+  def validate!
+    raise 'Нет начальной станции!' if  Station.all_stations.select {|station| station.name != @first_station}.empty?
+    raise 'Нет конечной станции!' if Station.all_stations.select {|station| station.name != @last_station}.empty?
+  end
+
+  def valid?
+    validate!
+    true 
+  rescue StandartError
+    false
+  end
+
 end
 
 

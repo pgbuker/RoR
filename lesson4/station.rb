@@ -5,6 +5,9 @@ include InstanceCounter::InstanceMethods
 
   class << self
     attr_accessor :all_stations
+    def all_stations
+      @@all_stations
+    end
   end
 
   attr_reader :trains, :name
@@ -16,13 +19,16 @@ include InstanceCounter::InstanceMethods
     @trains = []
     @@all_stations << self
     register_instance
+    validate!
   end
+
+  NAME = /^\w*$/
+
 
 
 #Используется непосредственно из меню пользователя
   def take_train_to_station(train)
     @trains << train  
-    puts @trains
   end
 #Используется непосредственно из меню пользователя
   def send_train_from_station(train)
@@ -42,4 +48,16 @@ private
   def trains_by(type)
     @trains.select { |train| train.type == type}
   end
+
+  def validate!
+    raise "Неправильное название станции!" if name !~ NAME
+  end
+  
+  def valid?
+    validate!
+    true 
+  rescue StandardError 
+    false
+  end
 end
+

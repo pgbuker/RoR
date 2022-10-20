@@ -22,7 +22,11 @@ class Train
     @wagons_array = []
     @@all_trains << self
     register_instance
+    validate!
   end
+
+  NUMBER = /^[a-z0-9]{3}-?+[a-z0-9]{2}$/i
+
 #Используется непосредственно из меню пользователя  
   def add_wagon(wagon)
     if @speed != 0 
@@ -90,20 +94,32 @@ class Train
   def next_station
     @route_train.route_stations[@station_index + 1]
   end
-end
+
 #Используется внутри класса, нет вызова из меню пользователя
-def start
-  @speed = rand(1..80)
-end
-#Используется внутри класса, нет вызова из меню пользователя
-def stop
-  @speed = 0
-end
-#Используется внутри класса, нет вызова из меню пользователя
-def control_speed
-  @speed
-end
-#Используется внутри класса, нет вызова из меню пользователя
-def wagons_count
-  @wagons_array.count { |wagon| wagon.number }   
+  def start
+    @speed = rand(1..80)
+  end
+  #Используется внутри класса, нет вызова из меню пользователя
+  def stop
+    @speed = 0
+  end
+  #Используется внутри класса, нет вызова из меню пользователя
+  def control_speed
+    @speed
+  end
+  #Используется внутри класса, нет вызова из меню пользователя
+  def wagons_count
+    @wagons_array.count { |wagon| wagon.number }   
+  end
+
+  def validate!
+    raise "Неправильный номер!" if number !~ NUMBER 
+  end
+
+  def valid?
+    validate!
+    true 
+  rescue StandardError 
+    false
+  end
 end
