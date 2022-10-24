@@ -1,6 +1,6 @@
 class Station
-extend InstanceCounter::ClassMethods
-include InstanceCounter::InstanceMethods
+ extend InstanceCounter::ClassMethods
+ include InstanceCounter::InstanceMethods
 
 
   class << self
@@ -8,6 +8,9 @@ include InstanceCounter::InstanceMethods
     def all_stations
       @@all_stations
     end
+
+    
+
   end
 
   attr_reader :trains, :name
@@ -39,6 +42,12 @@ include InstanceCounter::InstanceMethods
     puts "На станции #{@name} сейчас находятся поезда: "
     @trains.each_with_index { |train, index| puts "#{index + 1}. № #{train.number}" }
   end
+
+  def print_trains_stations
+    gives_all_trains {|train| puts "Номер: #{train.number}, Тип: #{train.type} Кол-во вагонов: #{train.wagons_array.count}" } 
+  end
+
+
 private
 #Используется внутри класса, нет вызова из меню пользователя
   def trains_count_by(type)
@@ -48,6 +57,13 @@ private
   def trains_by(type)
     @trains.select { |train| train.type == type}
   end
+
+  def gives_all_trains(&block)
+    puts "Все поезда на станции:"
+    @trains.each {|train| block.call(train)}
+    
+  end
+
 
   def validate!
     raise "Неправильное название станции!" if name !~ NAME
@@ -60,4 +76,3 @@ private
     false
   end
 end
-

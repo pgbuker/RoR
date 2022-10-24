@@ -79,13 +79,43 @@ class Train
     end  
   end
 
-
+  def gives_all_wagons(&block)
+    puts "Все вагоны поезда:"
+    @wagons_array.each(&block)
+  end
 
 #Используется непосредственно из меню пользовател
   def current_station
     @current_station
   end
+
+  def print_wagons_info
+    # {|wagon| puts "Номер вагона : #{wagon.number}, Тип вагона: #{wagon.type} Кол-во вагонов: #{train.wagons_array.count}" } 
+    gives_wagons_info do |wagon|
+      case wagon.type
+      when "passanger"
+        free_value = wagon.show_vacant_seats
+        occupate_value = wagon.occupate_seats
+      when "cargo"
+        free_value = wagon.show_free_volume
+        occupate_value = wagon.occupate_volume
+      end  
+        
+      puts "Номер вагона : #{wagon.number}, Тип вагона: #{wagon.type}, Кол-во свободного места: #{free_value}, Кол-во занятого места: #{occupate_value}"  
+    end   
+  end
+
+
   private
+
+
+  def gives_wagons_info(&block)
+    puts "Вагоны поезда:"
+    @wagons_array.each {|wagon| block.call(wagon)}
+    
+  end
+
+
   #Используется внутри класса, нет вызова из меню пользователя
   def previous_station
     @route_train.route_stations[@station_index - 1] 

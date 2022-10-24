@@ -11,9 +11,10 @@ class Console
   
   def menu_railrod
     puts "Основное меню железные дороги!"
-    puts "1 - меню управление станцией" 
-    puts "2 - меню управление поездом" 
-    puts "3 - управление маршрутом" 
+    puts "1 - Меню управление станцией" 
+    puts "2 - Меню управление поездом" 
+    puts "3 - Меню управление маршрутом" 
+    puts "4 - Меню управление вагонами" 
     puts "0 - выход" 
   end
 
@@ -25,6 +26,8 @@ class Console
       train_menu
     when 3  
       route_menu
+    when 4  
+      wagon_menu
     end  
     
   end
@@ -41,6 +44,8 @@ def station_menu
   puts "1 - создать станцию"
   puts "2 - добавить/удалить поезд на станцию"
   puts "3 - просмотреть список поездов на станции"
+  puts "4 - просмотреть список поездов на  всех станциях"
+  puts "5 - подробная информация о поездах на станции"
   puts "0 - выход в основное меню"
   menu_choice
   case @choice
@@ -82,6 +87,25 @@ def station_menu
     else
     station.show_all_trains  
     end
+  when 4
+    @all_stations.each do |station|
+      puts "#{station.name}: "
+      station.print_trains_stations
+    end
+  when 5
+    puts "Выберите станцию по номеру из  списка: "
+    all_stations_list
+    station_id = gets.to_i  
+    station = @all_stations[station_id]
+    if station.nil?
+    puts "Неправильно выбран номер из списка!" 
+    else
+      puts "Станция #{station.name}: "
+      station.trains.each do |train|
+        puts "Номер поезда #{train.number}: "
+        train.print_wagons_info
+      end 
+    end 
   when 0
     menu_railrod
   else
@@ -299,6 +323,52 @@ def route_menu
     menu_railrod
   else
     puts "Неправильно выбран пункт меню!!!"
+  end
+end
+
+def wagon_menu
+  puts "Меню управления вагоном"
+  puts "1 - Создать вагон"
+  puts "2 - Занять/загрузить место в вагоне"
+  puts "0 - выход в основное меню"  
+  menu_choice  
+  case @choice
+  when 1
+    puts "Выберите тип вагона: "
+    puts "1 - Пассажирский вагон"
+    puts "2 - Грузовой вагон"
+    type = gets.to_i
+      puts "Введите номер вагона: "
+      number = gets.chomp
+    if type == 1
+      puts "Введите кол-во мест: "
+      seats  = gets.to_i
+      wagon = PassangerWagon.new(number, seats)
+      @all_wagons << wagon
+      puts "Пассажирский вагон № #{number} создан!"
+    elsif type == 2
+      puts "Введите объем вагона: "
+      volume  = gets.to_i
+      wagon = CargoWagon.new(number, volume)
+      @all_wagons << wagon
+      puts "Грузовой вагон № #{number} создан!"
+    else
+      puts "Неправильно введен тип вагона!"
+    end
+  when 2
+    puts "Выберите вагон по номеру из списка: "
+    all_wagons_list
+    wagon_id = gets.to_i   
+    wagon = @all_wagons[wagon_id]
+    if wagon.nil?
+    puts "Неправильно выбран номер из списка!" 
+    elsif  wagon.type == "passanger"
+      wagon.take_seat
+      puts "Занято одно место в пассажирском вагоне №#{wagon.number}"  
+    else 
+      wagon.take_volume
+      puts "Занято одна единица объема в грузовом вагоне №#{wagon.number}"
+    end 
   end
 end
 
