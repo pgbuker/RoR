@@ -90,7 +90,7 @@ def station_menu
   when 4
     @all_stations.each do |station|
       puts "#{station.name}: "
-      station.print_trains_stations
+      station.gives_all_trains {|train| puts "Номер: #{train.number}, Тип: #{train.type} Кол-во вагонов: #{train.wagons_array.count}" } 
     end
   when 5
     puts "Выберите станцию по номеру из  списка: "
@@ -103,7 +103,18 @@ def station_menu
       puts "Станция #{station.name}: "
       station.trains.each do |train|
         puts "Номер поезда #{train.number}: "
-        train.print_wagons_info
+        train.gives_wagons_info do |wagon|
+          case wagon.type
+          when "passanger"
+            free_value = wagon.show_vacant_seats
+            occupate_value = wagon.occupate_seats
+          when "cargo"
+            free_value = wagon.show_free_volume
+            occupate_value = wagon.occupate_volume
+          end  
+            
+          puts "Номер вагона : #{wagon.number}, Тип вагона: #{wagon.type}, Кол-во свободного места: #{free_value}, Кол-во занятого места: #{occupate_value}"  
+        end   
       end 
     end 
   when 0

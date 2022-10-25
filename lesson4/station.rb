@@ -43,8 +43,15 @@ class Station
     @trains.each_with_index { |train, index| puts "#{index + 1}. № #{train.number}" }
   end
 
-  def print_trains_stations
-    gives_all_trains {|train| puts "Номер: #{train.number}, Тип: #{train.type} Кол-во вагонов: #{train.wagons_array.count}" } 
+  # def print_trains_stations
+    # gives_all_trains {|train| puts "Номер: #{train.number}, Тип: #{train.type} Кол-во вагонов: #{train.wagons_array.count}" } 
+  # end
+
+
+  def gives_all_trains(&block)
+    puts "Все поезда на станции:"
+    @trains.each {|train| block.call(train)}
+    
   end
 
 
@@ -58,11 +65,6 @@ private
     @trains.select { |train| train.type == type}
   end
 
-  def gives_all_trains(&block)
-    puts "Все поезда на станции:"
-    @trains.each {|train| block.call(train)}
-    
-  end
 
 
   def validate!
