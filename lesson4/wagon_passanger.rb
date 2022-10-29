@@ -1,41 +1,39 @@
+# frozen_string_literal: true
+
 class PassangerWagon
-   include Manufacture
-  
-  attr_reader :number, :type
+  include Manufacture
+
+  attr_reader :number, :type, :occupate_seats
 
   def initialize(number, seats)
-    @type = "passanger"
+    @type = 'passanger'
     @seats = seats
     @occupate_seats = 0
     @number = number
     validate!
-  end 
-  
+  end
+
+  NUMBER = /^\d+$/.freeze
+
   def take_seat
     if @occupate_seats < @seats
-       @occupate_seats += 1
-    else   
-       puts "Места в вагоне заночились!"
+      @occupate_seats += 1
+    else
+      puts 'Места в вагоне заночились!'
     end
-   end
- 
-   def occupate_seats
-     @occupate_seats     
-   end
-   
-    def show_vacant_seats
-     @vacant = @seats - @occupate_seats
-    end 
+  end
 
-  NUMBER = /^\d+$/
+  def show_vacant_seats
+    @vacant = @seats - @occupate_seats
+  end
 
   def validate!
-    raise "Неправильный номер!" if number !~ NUMBER 
+    raise 'Неправильный номер!' if number !~ NUMBER
   end
 
   def valid?
     validate!
-    true 
+    true
   rescue StandardError
     false
   end
