@@ -62,5 +62,6 @@ loop do
   puts 'Введите номер: '
   choice = gets.to_i
   break if choice.zero?
+
   @console.sub_menu_railroad(choice)
 end

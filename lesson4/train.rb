@@ -5,8 +5,6 @@ class Train
   include InstanceCounter::InstanceMethods
   include Manufacture
 
-
-
   class << self
     attr_accessor :all_trains
 

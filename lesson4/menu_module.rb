@@ -93,7 +93,7 @@ module RailRoadMenu
           free_value = wagon.show_free_volume
           occupate_value = wagon.occupate_volume
         end
-        puts "Номер вагона: #{wagon.number}, Тип вагона: #{wagon.type}, Кол-во свободного места: #{free_value}, Кол-во занятого места: #{occupate_value}"
+        puts "Номер вагона:#{wagon.number}, Тип вагона:#{wagon.type}, Кол-во свободного места:#{free_value}, Кол-во занятого места:#{occupate_value}"
       end
     end
   rescue StandardError => e
