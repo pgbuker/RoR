@@ -4,6 +4,19 @@ class Station
   extend InstanceCounter::ClassMethods
   include InstanceCounter::InstanceMethods
 
+  extend Validation::ClassMethods
+  include Validation::InstanceMethods
+
+  extend Accessors::ClassMethods
+ 
+
+
+  NAME = /^\w*$/.freeze
+
+  validate :name, :format, NAME
+  validate :name, :type, String
+
+
   class << self
     attr_accessor :all_stations
   end
@@ -20,7 +33,7 @@ class Station
     validate!
   end
 
-  NAME = /^\w*$/.freeze
+
 
   # Используется непосредственно из меню пользователя
   def take_train_to_station(train)
@@ -55,14 +68,14 @@ class Station
     @trains.select { |train| train.type == type }
   end
 
-  def validate!
-    raise 'Неправильное название станции!' if name !~ NAME
-  end
+  # def validate!
+  #   raise 'Неправильное название станции!' if name !~ NAME
+  # end
 
-  def valid?
-    validate!
-    true
-  rescue StandardError
-    false
-  end
+  # def valid?
+  #   validate!
+  #   true
+  # rescue StandardError
+  #   false
+  # end
 end
